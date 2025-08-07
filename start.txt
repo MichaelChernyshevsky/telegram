@@ -1,0 +1,4 @@
+Python 
+    python3 main.py  - for start 
+
+    pip install python-telegram-bot python-dotenv - update 
