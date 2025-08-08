@@ -6,23 +6,16 @@ import (
 	"strings"
 	"sync"
 
+	models "./models"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-type User struct {
-	Username string
-	Password string
-	Name     string
-	Company  string
-	Projects []string
-}
-
 var (
 	bot             *tgbotapi.BotAPI
-	authorizedUsers = make(map[int64]*User)
+	authorizedUsers = make(map[int64]*models.User)
 	usersMutex      sync.Mutex
 	loginState      = make(map[int64]bool)
-	predefinedUsers = []User{
+	predefinedUsers = []models.User{
 		{
 			Username: "admin",
 			Password: "admin123",
@@ -154,7 +147,7 @@ func handleAuthorized(msg *tgbotapi.Message) {
 	}
 }
 
-func sendAboutMeMenu(chatID int64, user *User) {
+func sendAboutMeMenu(chatID int64, user *models.User) {
 	info := fmt.Sprintf("Информация о вас:\nИмя: %s\nЛогин: %s\nКомпания: %s",
 		user.Name, user.Username, user.Company)
 
@@ -194,7 +187,7 @@ func processLogin(chatID int64, text string) {
 	for _, user := range predefinedUsers {
 		if user.Username == username && user.Password == password {
 			usersMutex.Lock()
-			authorizedUsers[chatID] = &User{
+			authorizedUsers[chatID] = &models.User{
 				Username: user.Username,
 				Name:     user.Name,
 				Company:  user.Company,
