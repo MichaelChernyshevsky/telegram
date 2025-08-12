@@ -22,7 +22,7 @@ func SendAboutMeMenu(chatID int64, user *models.User) {
 			tgbotapi.NewInlineKeyboardButtonData("Уровень доступа", "show_access"),
 		),
 	)
-
+	
 	msg := tgbotapi.NewMessage(chatID, info)
 	msg.ReplyMarkup = inlineKeyboard
 	provider.Bot.Send(msg)

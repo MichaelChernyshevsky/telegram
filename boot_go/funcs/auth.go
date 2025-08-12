@@ -2,6 +2,7 @@ package funcs
 
 import (
 	"strings"
+	"time"
 
 	models "../models"
 	provider "../providers"
@@ -68,6 +69,7 @@ func ProcessLogin(chatID int64, text string) {
 			}
 			provider.UsersMutex.Unlock()
 			SendAuthMenu(chatID, "Авторизация успешна! Добро пожаловать, "+user.Name+"!")
+			go startTelegramBot(time.Second, "msg", chatID)
 			return
 		}
 	}
